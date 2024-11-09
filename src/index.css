@@ -3,3 +3,54 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Default */
+:root {
+  --main-color: rgb(40, 40, 40);
+  --secondary-color: rgb(25, 25, 25);
+  --border-color: rgba(70, 70, 70, 0.9);
+  --light-color: rgb(140, 140, 140);
+  --green-color: #38bb93;
+  --green-color-hover: rgba(56, 187, 147, 0.8);
+  --red-color: rgb(234, 60, 83);
+  --red-color-hover: rgb(234, 60, 83, 0.9);
+  --orange-color: rgb(253, 103, 58);
+  --orange-color-hover: rgba(253, 103, 58, 0.8);
+  --blue-color: rgb(48, 92, 166);
+  --blue-color-hover: rgba(48, 92, 166, 0.8);
+  --yellow-color: rgb(255, 230, 0);
+  --yellow-color-hover: rgba(255, 230, 0, 0.8);
+  --pink-color: rgb(255, 105, 180);
+  --pink-color-hover: rgba(255, 105, 180, 0.8);
+  --text-color: rgb(255, 255, 255);
+  --text-color-black: rgb(22, 22, 22);
+  --header-size: 50px;
+  --bottom-size: 60px;
+}
+
+/* Custom styles */
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+/* Default Styling */
+/*Scrollbar*/
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--green-color);
+}

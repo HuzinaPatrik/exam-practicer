@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
 const NewTopicPopup = ({
@@ -8,6 +8,8 @@ const NewTopicPopup = ({
   input,
   button,
   buttonColor,
+  placeholder,
+  defaultName,
 }) => {
   const [topicName, setTopicName] = useState("");
 
@@ -18,6 +20,10 @@ const NewTopicPopup = ({
       onClose(); // Close popup
     }
   };
+
+  useEffect(() => {
+    setTopicName(defaultName || "");
+  }, [defaultName]);
 
   const bgColor = buttonColor ? `bg-red` : "bg-green";
   const hoverColor = buttonColor
@@ -44,7 +50,7 @@ const NewTopicPopup = ({
         {input && (
           <input
             type="text"
-            placeholder="Téma neve"
+            placeholder={placeholder || "Téma neve"}
             value={topicName}
             onChange={(e) => setTopicName(e.target.value)}
             className="w-full p-2 border border-gray rounded mb-4 focus:outline-none focus:border-blue text-black font-roboto"
