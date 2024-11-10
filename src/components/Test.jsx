@@ -84,9 +84,9 @@ const Test = ({ questions, setIsTestStarted }) => {
   const timeInMinutes = (time / 60).toFixed(2);
 
   return (
-    <div className="fixed left-0 top-0 w-full h-full flex items-center justify-center z-50 backdrop-blur-md">
-      <div className="bg-main border border-border">
-        <div className="bg-secondary border-border border-b text-roboto text-lg font-semibold text-white px-4 py-2 flex justify-between items-center">
+    <div className="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full backdrop-blur-md">
+      <div className="border bg-main border-border">
+        <div className="flex items-center justify-between px-4 py-2 text-lg font-semibold text-white border-b bg-secondary border-border text-roboto">
           <span>Teszt</span>
           <div className="flex items-center gap-2">
             {started && !testEnded && (
@@ -98,7 +98,7 @@ const Test = ({ questions, setIsTestStarted }) => {
             {started && (
               <FontAwesomeIcon
                 icon={faTimes}
-                className="cursor-pointer text-red transition-all duration-200 scale-100 hover:text-red-hover hover:scale-125"
+                className="transition-all duration-200 scale-100 cursor-pointer text-red hover:text-red-hover hover:scale-125"
                 onClick={handleCloseTest}
               />
             )}
@@ -106,22 +106,22 @@ const Test = ({ questions, setIsTestStarted }) => {
         </div>
 
         {!started ? (
-          <div className="flex flex-col gap-4 items-center p-4">
-            <div className="text-white text-lg font-semibold text-center">
+          <div className="flex flex-col items-center gap-4 p-4">
+            <div className="text-lg font-semibold text-center text-white">
               A teszt megkezdéséhez kattints a gombra!
             </div>
             <button
-              className="bg-green text-white rounded-lg px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-green-hover"
+              className="px-4 py-2 text-lg font-semibold text-white transition-all duration-200 rounded-lg bg-green font-roboto hover:bg-green-hover"
               onClick={() => setStarted(true)}>
               Teszt megkezdése
             </button>
           </div>
         ) : testEnded ? (
           <div className="flex flex-col items-center p-4 min-w-96">
-            <div className="text-lg font-semibold text-white mb-4">
+            <div className="mb-4 text-lg font-semibold text-white">
               Teszt összegző
             </div>
-            <div className="text-white text-center">
+            <div className="text-center text-white">
               <p>
                 Összes kérdés:
                 <span className="text-blue">{currentQuestions.length}</span>
@@ -142,7 +142,7 @@ const Test = ({ questions, setIsTestStarted }) => {
               </p>
             </div>
             <button
-              className="bg-red text-white rounded-lg px-4 py-2 mt-4 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-red-hover"
+              className="px-4 py-2 mt-4 text-lg font-semibold text-white transition-all duration-200 rounded-lg bg-red font-roboto hover:bg-red-hover"
               onClick={handleCloseTest}>
               Bezárás
             </button>
@@ -151,7 +151,7 @@ const Test = ({ questions, setIsTestStarted }) => {
           <div
             className="px-4 py-2"
             style={{ minWidth: "fit-content", maxWidth: "40vw" }}>
-            <div className="font-bold text-xl mb-4 text-center whitespace-pre-line">
+            <div className="mb-4 text-xl font-bold text-center whitespace-pre-line">
               {currentQuestions[currentQuestion].text}
             </div>
 
@@ -176,7 +176,7 @@ const Test = ({ questions, setIsTestStarted }) => {
                     {multipleAnswerQuestion && (
                       <input
                         type="checkbox"
-                        className="cursor-pointer mr-2 p-4"
+                        className="p-4 mr-2 cursor-pointer"
                         checked={answer.selected || false}
                         onChange={(e) => {
                           const newQuestions = [...currentQuestions];
@@ -196,7 +196,7 @@ const Test = ({ questions, setIsTestStarted }) => {
 
             {answered && (
               <button
-                className="bg-blue text-white rounded-md px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-blue-hover hover:text-black mt-4 flex items-center justify-center w-full"
+                className="flex items-center justify-center w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-all duration-200 rounded-md bg-blue font-roboto hover:bg-blue-hover hover:text-black"
                 onClick={handleNextQuestion}>
                 Következő kérdés
               </button>
@@ -204,8 +204,21 @@ const Test = ({ questions, setIsTestStarted }) => {
 
             {!answered && multipleAnswerQuestion && (
               <button
-                className="bg-orange text-white rounded-md px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-orange-hover hover:text-black mt-4 flex items-center justify-center w-full"
-                onClick={() => setAnswered(true)}>
+                className="flex items-center justify-center w-full px-4 py-2 mt-4 text-lg font-semibold text-white transition-all duration-200 rounded-md bg-orange font-roboto hover:bg-orange-hover hover:text-black"
+                onClick={() => {
+                  setAnswered(true);
+
+                  const correctAnswers = currentQuestions[
+                    currentQuestion
+                  ].answers.filter((answer) => answer.correct);
+                  const allCorrectAnswersSelected = correctAnswers.every(
+                    (answer) => answer.selected
+                  );
+
+                  if (allCorrectAnswersSelected) {
+                    setSuccessful(successful + 1);
+                  }
+                }}>
                 Check
               </button>
             )}
