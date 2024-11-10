@@ -171,6 +171,11 @@ const Test = ({ questions, setIsTestStarted }) => {
                       if (!answered && !multipleAnswerQuestion) {
                         setAnswered(true);
                         if (answer.correct) setSuccessful(successful + 1);
+                      } else {
+                        const newQuestions = [...currentQuestions];
+                        newQuestions[currentQuestion].answers[index].selected =
+                          !answer.selected;
+                        setCurrentQuestions(newQuestions);
                       }
                     }}>
                     {multipleAnswerQuestion && (
