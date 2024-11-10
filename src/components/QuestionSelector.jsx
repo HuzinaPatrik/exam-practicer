@@ -113,7 +113,6 @@ const QuestionSelector = ({ selectedTopic }) => {
   };
 
   const startTest = () => {
-    console.log("asd");
     setIsTestStarted(true);
   };
 
@@ -121,38 +120,38 @@ const QuestionSelector = ({ selectedTopic }) => {
     <>
       <div className="w-full h-full">
         {selectedTopic ? (
-          <div className="w-full h-full flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center w-full h-full">
             <div
-              className="w-full border-b border-border flex items-center justify-center bg-main"
+              className="flex items-center justify-center w-full border-b border-border bg-main"
               style={{ height: "7.5%" }}>
-              <div className="flex-1 text-2xl font-roboto ml-6 font-bold">
+              <div className="flex-1 ml-6 text-2xl font-bold font-roboto">
                 Kérdések ({questions.length} db)
               </div>
-              <div className="flex-1 text-2xl font-roboto flex justify-end mr-6 gap-4">
+              <div className="flex justify-end flex-1 gap-4 mr-6 text-2xl font-roboto">
                 <FontAwesomeIcon
                   data-tooltip-id="tooltip-export"
                   icon={faFileExport}
-                  className="text-white transition-all duration-200 hover:text-yellow cursor-pointer"
+                  className="text-white transition-all duration-200 cursor-pointer hover:text-yellow"
                   onClick={() => exportQuestions()}
                 />
 
                 <FontAwesomeIcon
                   data-tooltip-id="tooltip-import"
                   icon={faFileImport}
-                  className="text-white transition-all duration-200 hover:text-blue cursor-pointer"
+                  className="text-white transition-all duration-200 cursor-pointer hover:text-blue"
                   onClick={() => importQuestions()}
                 />
               </div>
             </div>
             <div
-              className="w-full h-full p-4 flex flex-col"
+              className="flex flex-col w-full h-full p-4"
               style={{ height: "92.5%" }}>
-              <div className="flex-auto w-full overflow-auto gap-2 flex flex-col max-h-fit">
+              <div className="flex flex-col flex-auto w-full gap-2 overflow-auto max-h-fit">
                 {questions.map((question, questionIndex) => (
                   <div
                     key={question.id}
-                    className="w-full px-4 py-2 min-h-fit flex flex-col border border-border bg-main text-white font-roboto">
-                    <div className="w-full h-fit flex items-center justify-start">
+                    className="flex flex-col w-full px-4 py-2 text-white border min-h-fit border-border bg-main font-roboto">
+                    <div className="flex items-center justify-start w-full h-fit">
                       <FontAwesomeIcon
                         icon={faArrowAltCircleRight}
                         className={`mr-2 cursor-pointer ${
@@ -172,13 +171,13 @@ const QuestionSelector = ({ selectedTopic }) => {
 
                       <FontAwesomeIcon
                         icon={faPencil}
-                        className="ml-2 text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-blue hover:opacity-100"
+                        className="ml-2 text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-blue hover:opacity-100"
                         onClick={() => editQuestion(question.id)}
                       />
 
                       <FontAwesomeIcon
                         icon={faXmark}
-                        className="ml-auto text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-red hover:opacity-100"
+                        className="ml-auto text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-red hover:opacity-100"
                         onClick={() => {
                           setIsDeletePopupOpen(true);
                           setSelectedQuestion(question.id);
@@ -187,7 +186,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
                       <FontAwesomeIcon
                         icon={faCopy}
-                        className="ml-2 text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-blue hover:opacity-100"
+                        className="ml-2 text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-blue hover:opacity-100"
                         onClick={() => {
                           const updatedQuestions = [...questions];
                           updatedQuestions.push({
@@ -204,11 +203,11 @@ const QuestionSelector = ({ selectedTopic }) => {
                     </div>
 
                     {question.opened && (
-                      <div className="w-full px-4 py-2 mt-2 min-h-fit flex flex-col items-start border border-border bg-main text-white font-roboto gap-2">
+                      <div className="flex flex-col items-start w-full gap-2 px-4 py-2 mt-2 text-white border min-h-fit border-border bg-main font-roboto">
                         {question.answers.map((answer, answerIndex) => (
                           <div
                             key={answerIndex}
-                            className="w-full px-4 py-2 min-h-fit flex items-center justify-start border border-border bg-main text-white font-roboto">
+                            className="flex items-center justify-start w-full px-4 py-2 text-white border min-h-fit border-border bg-main font-roboto">
                             <input
                               type="checkbox"
                               className="mr-2"
@@ -228,7 +227,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
                             <FontAwesomeIcon
                               icon={faPencil}
-                              className="ml-2 text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-blue hover:opacity-100"
+                              className="ml-2 text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-blue hover:opacity-100"
                               onClick={() =>
                                 editAnswer(questionIndex, answerIndex)
                               }
@@ -236,7 +235,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
                             <FontAwesomeIcon
                               icon={faXmark}
-                              className="ml-auto text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-red hover:opacity-100"
+                              className="ml-auto text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-red hover:opacity-100"
                               onClick={() => {
                                 const updatedQuestions = [...questions];
                                 updatedQuestions[questionIndex].answers.splice(
@@ -249,7 +248,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
                             <FontAwesomeIcon
                               icon={faCopy}
-                              className="ml-2 text-white opacity-20 cursor-pointer transition-all duration-200 hover:text-blue hover:opacity-100"
+                              className="ml-2 text-white transition-all duration-200 cursor-pointer opacity-20 hover:text-blue hover:opacity-100"
                               onClick={() => {
                                 const updatedQuestions = [...questions];
                                 updatedQuestions[questionIndex].answers.push({
@@ -263,7 +262,7 @@ const QuestionSelector = ({ selectedTopic }) => {
                         ))}
 
                         <div
-                          className="w-full px-4 py-2 min-h-fit flex items-center text-sm justify-center border border-border bg-green text-white font-roboto transition-all duration-200 hover:bg-green-hover cursor-pointer hover:text-black"
+                          className="flex items-center justify-center w-full px-4 py-2 text-sm text-white transition-all duration-200 border cursor-pointer min-h-fit border-border bg-green font-roboto hover:bg-green-hover hover:text-black"
                           onClick={() => createNewAnswer(questionIndex)}>
                           <FontAwesomeIcon icon={faPlus} className="mr-2" />
                           Új válasz hozzáadása
@@ -276,7 +275,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
               <div className="w-full">
                 <div
-                  className="w-full mt-2 px-4 py-2 min-h-fit flex items-center justify-center border border-border bg-green text-white font-roboto transition-all duration-200 hover:bg-green-hover cursor-pointer hover:text-black"
+                  className="flex items-center justify-center w-full px-4 py-2 mt-2 text-white transition-all duration-200 border cursor-pointer min-h-fit border-border bg-green font-roboto hover:bg-green-hover hover:text-black"
                   onClick={() => createNewQuestion()}>
                   <FontAwesomeIcon icon={faPlus} className="mr-2" />
                   Új kérdés hozzáadása
@@ -285,7 +284,7 @@ const QuestionSelector = ({ selectedTopic }) => {
 
               {questions.length > 0 && (
                 <div
-                  className="w-full px-4 py-2 min-h-fit flex items-center justify-center border border-border bg-orange text-white font-roboto transition-all duration-200 hover:bg-orange-hover cursor-pointer hover:text-black"
+                  className="flex items-center justify-center w-full px-4 py-2 text-white transition-all duration-200 border cursor-pointer min-h-fit border-border bg-orange font-roboto hover:bg-orange-hover hover:text-black"
                   onClick={() => startTest()}>
                   <FontAwesomeIcon icon={faPlay} className="mr-2" />
                   Teszt indítása
@@ -294,7 +293,7 @@ const QuestionSelector = ({ selectedTopic }) => {
             </div>
           </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center animate-pulse text-2xl text-red font-roboto">
+          <div className="flex items-center justify-center w-full h-full text-2xl animate-pulse text-red font-roboto">
             Válassz egy témát!
           </div>
         )}
