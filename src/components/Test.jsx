@@ -1,4 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const shuffle = (array) => {
   const shuffledArray = [...array];
@@ -86,11 +88,21 @@ const Test = ({ questions, setIsTestStarted }) => {
       <div className="bg-main border border-border">
         <div className="bg-secondary border-border border-b text-roboto text-lg font-semibold text-white px-4 py-2 flex justify-between items-center">
           <span>Teszt</span>
-          {started && !testEnded && (
-            <span className="text-sm">
-              Kérdés: {currentQuestion + 1} / {currentQuestions.length}
-            </span>
-          )}
+          <div className="flex items-center gap-2">
+            {started && !testEnded && (
+              <span className="text-sm">
+                Kérdés: {currentQuestion + 1} / {currentQuestions.length}
+              </span>
+            )}
+
+            {started && (
+              <FontAwesomeIcon
+                icon={faTimes}
+                className="cursor-pointer text-red transition-all duration-200 scale-100 hover:text-red-hover hover:scale-125"
+                onClick={handleCloseTest}
+              />
+            )}
+          </div>
         </div>
 
         {!started ? (

@@ -126,7 +126,7 @@ const QuestionSelector = ({ selectedTopic }) => {
               className="w-full border-b border-border flex items-center justify-center bg-main"
               style={{ height: "7.5%" }}>
               <div className="flex-1 text-2xl font-roboto ml-6 font-bold">
-                Kérdések
+                Kérdések ({questions.length} db)
               </div>
               <div className="flex-1 text-2xl font-roboto flex justify-end mr-6 gap-4">
                 <FontAwesomeIcon
