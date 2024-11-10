@@ -16,14 +16,23 @@ const Test = ({ questions, setIsTestStarted }) => {
   const [answered, setAnswered] = useState(false);
   const [started, setStarted] = useState(false);
   const [testEnded, setTestEnded] = useState(false);
+  const [multipleAnswerQuestion, setMultipleAnswerQuestion] = useState(false);
   const [time, setTime] = useState(0); // Time in seconds
 
   useEffect(() => {
     const shuffledQuestions = shuffle(questions).map((question) => ({
       ...question,
-      answers: shuffle(question.answers),
+      answers: shuffle(
+        question.answers.map((answer) => ({ ...answer, selected: false }))
+      ),
     }));
+
     setCurrentQuestions(shuffledQuestions);
+    setMultipleAnswerQuestion(
+      shuffledQuestions[currentQuestion].answers.filter(
+        (answer) => answer.correct
+      ).length > 1
+    );
   }, [questions]);
 
   // Timer
@@ -37,8 +46,28 @@ const Test = ({ questions, setIsTestStarted }) => {
 
   const handleNextQuestion = () => {
     setAnswered(false);
+
     if (currentQuestion < currentQuestions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+      const nextQuestionIndex = currentQuestion + 1;
+      setCurrentQuestion(nextQuestionIndex);
+
+      // Reset selections for the next question
+      const updatedQuestions = currentQuestions.map((question, index) => {
+        if (index === nextQuestionIndex) {
+          question.answers = question.answers.map((answer) => ({
+            ...answer,
+            selected: false,
+          }));
+        }
+        return question;
+      });
+      setCurrentQuestions(updatedQuestions);
+
+      setMultipleAnswerQuestion(
+        currentQuestions[nextQuestionIndex].answers.filter(
+          (answer) => answer.correct
+        ).length > 1
+      );
     } else {
       setTestEnded(true);
     }
@@ -82,21 +111,22 @@ const Test = ({ questions, setIsTestStarted }) => {
             </div>
             <div className="text-white text-center">
               <p>
-                Összes kérdés:{" "}
-                <span class="text-blue">{currentQuestions.length}</span>
+                Összes kérdés:
+                <span className="text-blue">{currentQuestions.length}</span>
               </p>
               <p>
-                Helyes válaszok: <span class="text-green">{successful}</span>
+                Helyes válaszok:{" "}
+                <span className="text-green">{successful}</span>
               </p>
               <p>
                 Helytelen válaszok:{" "}
-                <span class="text-red">{incorrectAnswers}</span>
+                <span className="text-red">{incorrectAnswers}</span>
               </p>
               <p>
-                Százalék: <span class="text-green">{percentage}%</span>
+                Százalék: <span className="text-green">{percentage}%</span>
               </p>
               <p>
-                Idő: <span class="text-orange">{timeInMinutes} perc</span>
+                Idő: <span className="text-orange">{timeInMinutes} perc</span>
               </p>
             </div>
             <button
@@ -106,8 +136,10 @@ const Test = ({ questions, setIsTestStarted }) => {
             </button>
           </div>
         ) : (
-          <div className="px-4 py-2 min-w-96">
-            <div className="font-bold text-xl mb-4 text-center">
+          <div
+            className="px-4 py-2"
+            style={{ minWidth: "fit-content", maxWidth: "40vw" }}>
+            <div className="font-bold text-xl mb-4 text-center whitespace-pre-line">
               {currentQuestions[currentQuestion].text}
             </div>
 
@@ -124,11 +156,26 @@ const Test = ({ questions, setIsTestStarted }) => {
                         : "bg-secondary text-white"
                     }`}
                     onClick={() => {
-                      if (!answered) {
+                      if (!answered && !multipleAnswerQuestion) {
                         setAnswered(true);
                         if (answer.correct) setSuccessful(successful + 1);
                       }
                     }}>
+                    {multipleAnswerQuestion && (
+                      <input
+                        type="checkbox"
+                        className="cursor-pointer mr-2 p-4"
+                        checked={answer.selected || false}
+                        onChange={(e) => {
+                          const newQuestions = [...currentQuestions];
+                          newQuestions[currentQuestion].answers[
+                            index
+                          ].selected = e.target.checked;
+                          setCurrentQuestions(newQuestions);
+                        }}
+                      />
+                    )}
+
                     {answer.text}
                   </div>
                 )
@@ -137,9 +184,17 @@ const Test = ({ questions, setIsTestStarted }) => {
 
             {answered && (
               <button
-                className="bg-blue text-white rounded-lg px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-blue-hover hover:text-black mt-4 flex items-center justify-center w-full"
+                className="bg-blue text-white rounded-md px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-blue-hover hover:text-black mt-4 flex items-center justify-center w-full"
                 onClick={handleNextQuestion}>
                 Következő kérdés
+              </button>
+            )}
+
+            {!answered && multipleAnswerQuestion && (
+              <button
+                className="bg-orange text-white rounded-md px-4 py-2 font-roboto text-lg font-semibold transition-all duration-200 hover:bg-orange-hover hover:text-black mt-4 flex items-center justify-center w-full"
+                onClick={() => setAnswered(true)}>
+                Check
               </button>
             )}
           </div>

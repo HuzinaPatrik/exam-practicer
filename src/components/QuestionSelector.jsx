@@ -223,7 +223,7 @@ const QuestionSelector = ({ selectedTopic }) => {
                             />
                             {answer.text}
                             {answer.correct && (
-                              <span class="ml-2 text-green">(Helyes)</span>
+                              <span className="ml-2 text-green">(Helyes)</span>
                             )}
 
                             <FontAwesomeIcon
