@@ -211,9 +211,13 @@ const Test = ({ questions, setIsTestStarted }) => {
                   const correctAnswers = currentQuestions[
                     currentQuestion
                   ].answers.filter((answer) => answer.correct);
-                  const allCorrectAnswersSelected = correctAnswers.every(
-                    (answer) => answer.selected
-                  );
+                  const selectedAnswers = currentQuestions[
+                    currentQuestion
+                  ].answers.filter((answer) => answer.selected);
+
+                  const allCorrectAnswersSelected =
+                    selectedAnswers.length === correctAnswers.length &&
+                    selectedAnswers.every((answer) => answer.correct);
 
                   if (allCorrectAnswersSelected) {
                     setSuccessful(successful + 1);
